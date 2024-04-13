@@ -13,7 +13,7 @@ spec:
         app: wisecow
     spec:
       containers:
-        - name: wisecoww
+        - name: wisecow
           image: docker.io/sahildahake/wisecow-image:latest
           ports:
             - containerPort: 8080
