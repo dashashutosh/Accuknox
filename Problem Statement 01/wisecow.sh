@@ -1,4 +1,4 @@
-
+.
 
 SRVPORT=4499
 RSPFILE=response
