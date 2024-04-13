@@ -1,4 +1,4 @@
-## Objectives
+## Objective
    Use either Bash or Python to complete the below objectives.
 
 
