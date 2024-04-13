@@ -1,23 +1,41 @@
-import shutil
-import os
+import psutil
 
-# Specify the directory to be backed up
-source_directory = input("Enter the path of the source directory: ")
+# Define thresholds
+CPU_THRESHOLD = 80  # in percentage
+MEMORY_THRESHOLD = 80  # in percentage
+DISK_THRESHOLD = 80  # in percentage
 
-# Specify the destination directory on the remote server or cloud storage
-destination_directory = input("Enter the path of the destination directory: ")
+# Function to check CPU usage
+def check_cpu_usage():
+    cpu_percent = psutil.cpu_percent(interval=1)
+    if cpu_percent > CPU_THRESHOLD:
+        print(f"High CPU usage detected: {cpu_percent}%")
 
-def backup_directory():
-    try:
-        # Perform the backup operation
-        files = os.listdir(source_directory)
-        for file_name in files:
-            source_file = os.path.join(source_directory, file_name)
-            destination_file = os.path.join(destination_directory, file_name)
-            shutil.copy(source_file, destination_file)
-        print("Backup successful!")
-    except Exception as e:
-        print(f"Backup failed: {e}")
+# Function to check memory usage
+def check_memory_usage():
+    memory_percent = psutil.virtual_memory().percent
+    if memory_percent > MEMORY_THRESHOLD:
+        print(f"High memory usage detected: {memory_percent}%")
+
+# Function to check disk usage
+def check_disk_usage():
+    disk_percent = psutil.disk_usage('/').percent
+    if disk_percent > DISK_THRESHOLD:
+        print(f"High disk usage detected: {disk_percent}%")
+
+# Function to check running processes
+def check_running_processes():
+    processes = [p.info for p in psutil.process_iter(['pid', 'name'])]
+    print("Running processes:")
+    for process in processes:
+        print(f"PID: {process['pid']}, Name: {process['name']}")
+
+# Main function
+def main():
+    check_cpu_usage()
+    check_memory_usage()
+    check_disk_usage()
+    check_running_processes()
 
 if __name__ == "__main__":
-    backup_directory()
+    main()
